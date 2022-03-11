@@ -13,6 +13,9 @@ Data and Code
    * - Library
      - Version
      - Reference
+   * - `RCC PE2 <https://www.sciencedirect.com/science/article/pii/S2211124716301279>`_
+     - 2016
+     - Chen, Fengju et al. 2016. ‘Multilevel Genomics-Based Taxonomy of Renal Cell Carcinoma’. Cell Reports 14(10): 2476–89.
    * - `DESeq2 <https://bioconductor.org/packages/release/bioc/html/DESeq2.html>`_
      - 3.14
      - Love MI, Huber W, Anders S (2014). “Moderated estimation of fold change and dispersion for RNA-seq data with DESeq2.” Genome Biology, 15, 550. doi: 10.1186/s13059-014-0550-8.

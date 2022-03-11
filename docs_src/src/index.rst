@@ -19,7 +19,7 @@ Raw code can be found at: https://github.com/ArianeMora/KIRP_HIRA
 Data
 ----
 
-The data are as follows:
+The data are as follows and stored on `github LFS <https://github.com/ArianeMora/KIRP_HIRA/tree/main/KIRP_type2/data>`_:
 
 **DEseq2_NormalVsTumour_KIRP-PE2.csv**
 Output from running the DEseq2 for the KIRP PE2 tumour vs normal. LogFC is positive if it is higher in the normal vs the tumour.
@@ -60,7 +60,8 @@ The column names are of the format:
 Figures
 -------
 
-Generated images can be found in the HTML or in the **img_DNAmethylation** or **img_RNA folders**.
+Generated images can be found in the HTML or in the `img_DNAmethylation <https://github.com/ArianeMora/KIRP_HIRA/tree/main/KIRP_type2/img_DNAMethylation>`_
+or `img_RNA <https://github.com/ArianeMora/KIRP_HIRA/tree/main/KIRP_type2/img_RNA/>`_ folders.
 
 
 Getting in touch
