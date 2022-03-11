@@ -1,0 +1,333 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>KIRP PE.2 analysis for HIRA project &mdash; HIRA 0.0.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/theme_overrides.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="_static/logo.png"/>
+  
+
+  
+  
+
+  
+    <link rel="canonical" href="https://arianemora.github.io/KIRP_HIRA/index.html" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="_static/custom.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Summary" href="about.html" />
+ 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="#">
+          
+
+          
+            
+            <img src="_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Package info</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="about.html">Summary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="about.html#data">Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="about.html#figures">Figures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reproducibility</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="examples/Preprocessing.html">Data processing and download for DNA methylation and RNA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/KIRP_type2.html">DESeq2 analysis and visualisations for KIRP PE.2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/KIRP_type2_FHdeficient.html">DESeq2 analysis and visualisations for KIRP PE.2 FH low</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">About</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Change log</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">HIRA</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content style-external-links">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>KIRP PE.2 analysis for HIRA project</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            
+              <a href="https://github.com/arianemora/KIRP_HIRA/blob/main/docs_src/src/index.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="kirp-pe-2-analysis-for-hira-project">
+<h1>KIRP PE.2 analysis for HIRA project<a class="headerlink" href="#kirp-pe-2-analysis-for-hira-project" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
+<p>The notebooks contain a DE analysis, using the normal vs tumour for the <strong>PE.2 KIRP</strong> dataset from TCGA.</p>
+<p>Data processing and download can be found in <strong>KIRP_DNAMethyaltion.ipynb</strong>, this also contains individual statistical
+tests between genes of interest for both DNA methylation and RNAseq data.</p>
+<p>Code for the R analysis can be reproduced by following the script in <strong>KIRP_type2.rmd</strong> and <strong>KIRP_type2_FHdeficient.Rmd</strong>.
+These include a DESeq2 analysis and visualisations of the most variable genes.</p>
+<p>Raw code can be found at: <a class="reference external" href="https://github.com/ArianeMora/KIRP_HIRA">https://github.com/ArianeMora/KIRP_HIRA</a></p>
+</div>
+<div class="section" id="data">
+<h2>Data<a class="headerlink" href="#data" title="Permalink to this headline">¶</a></h2>
+<p>The data are as follows:</p>
+<p><strong>DEseq2_NormalVsTumour_KIRP-PE2.csv</strong>
+Output from running the DEseq2 for the KIRP PE2 tumour vs normal. LogFC is positive if it is higher in the normal vs the tumour.</p>
+<p><strong>TCGA_kidney_counts_13082020.csv</strong>
+These are the counts for all the samples in the TCGA database (KIRP, KIRC, KICH)</p>
+<p><strong>TCGA_kidney_HumanMethylation450_13082020.csv</strong>
+These are the DNA methylation beta values for all the samples in the TCGA database (KIRP, KIRC, KICH)</p>
+<p><strong>TCGA_kidney_counts_KIRP-only_13082020.csv</strong>
+These are the counts for KIRP only from TCGA database</p>
+<p><strong>TCGA_kidney_counts_KIRP-PE2-only_13082020.csv</strong>
+These are the counts for KIRP only from TCGA database filtering on the samples labelled in the paper: <a class="reference external" href="https://www.sciencedirect.com/science/article/pii/S2211124716301279">https://www.sciencedirect.com/science/article/pii/S2211124716301279</a></p>
+<p><strong>KIRP_type2_FHdeficient.Rmd</strong>
+This file is a DE analysis taking FH low vs high into account as a factor. This would need to be improved (i.e. take a random sample from the high group) to use as an actual analysis but gives a general idea about how it works.</p>
+<p><strong>annotated-rna_kirp-Cimp_20200814.csv</strong>
+The CIMP count data with annotation using FH lowest 25% or FH &gt; lowest 25%.</p>
+<p><strong>annotated-rna_kirp-Pe2_20200814.csv</strong>
+The Pe2 count data with annotation using FH lowest 25% or FH &gt; lowest 25%.</p>
+<p><strong>annotated-rna_kirp_20200814.csv</strong>
+KIRP count data with annotation using FH lowest 25% or FH &gt; lowest 25%.</p>
+<p>The columns are labelled to include as much sample information as possible:
+The column names are of the format:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">subtype_project_sampleType_gender_race_tumourStage_dataType_timeTillDeath_fileIDstuff</span><span class="p">]</span> <span class="n">e</span><span class="o">.</span><span class="n">g</span><span class="o">.</span> <span class="n">here</span> <span class="ow">is</span> <span class="n">an</span> <span class="n">example</span><span class="p">:</span>
+<span class="n">PE2_TCGA</span><span class="o">-</span><span class="n">KIRP_SolidTissueNormal_male_white_3_htseq</span><span class="o">.</span><span class="n">counts_</span><span class="o">--</span><span class="n">_TCGA</span><span class="o">-</span><span class="n">KIRP_TCGA</span><span class="o">-</span><span class="n">BQ</span><span class="o">-</span><span class="mi">5890</span><span class="n">_a7c5e2d2</span><span class="o">-</span><span class="n">efcd</span><span class="o">-</span><span class="mi">461</span><span class="n">f</span><span class="o">-</span><span class="n">b795</span><span class="o">-</span><span class="mi">9</span><span class="n">bd0e522149e</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="figures">
+<h2>Figures<a class="headerlink" href="#figures" title="Permalink to this headline">¶</a></h2>
+<p>Generated images can be found in the HTML or in the <strong>img_DNAmethylation</strong> or <strong>img_RNA folders</strong>.</p>
+</div>
+<div class="section" id="getting-in-touch">
+<h2>Getting in touch<a class="headerlink" href="#getting-in-touch" title="Permalink to this headline">¶</a></h2>
+<p>Please contact AM (<a class="reference external" href="mailto:a&#46;mora&#37;&#52;&#48;uq&#46;edu&#46;au">a<span>&#46;</span>mora<span>&#64;</span>uq<span>&#46;</span>edu<span>&#46;</span>au</a>) for any questions about the code.</p>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Package info</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="about.html">Summary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="about.html#data">Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="about.html#figures">Figures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Reproducibility</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="examples/Preprocessing.html">Data processing and download for DNA methylation and RNA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/KIRP_type2.html">DESeq2 analysis and visualisations for KIRP PE.2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/KIRP_type2_FHdeficient.html">DESeq2 analysis and visualisations for KIRP PE.2 FH low</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">About</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Change log</a></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="about.html" class="btn btn-neutral float-right" title="Summary" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2022, Ariane Mora.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

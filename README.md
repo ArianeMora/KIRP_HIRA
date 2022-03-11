@@ -4,7 +4,8 @@ The notebook contains a DE analysis, using the normal vs tumour for the PE.2 KIR
 
 ## Reproducibility:
 Data processing and download can be found in `KIRP_DNAMethyaltion.ipynb`, this also contains individual statistical
-tests between genes of interest for both DNA methylation and RNAseq data.   
+tests between genes of interest for both DNA methylation and RNAseq data. The notebooks run at the time of analysis 
+can be found at: https://arianemora.github.io/KIRP_HIRA/
 
 Code for the R analysis can be reproduced by following the script in `KIRP_type2.rmd` and `KIRP_type2_FHdeficient.Rmd`. 
 These include a DESeq2 analysis and visualisations of the most variable genes. 
