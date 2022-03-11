@@ -1,0 +1,322 @@
+---
+title: "KRIP PE2 data"
+output: html_notebook
+---
+
+Here we load the KIRP  PE2 data and perform a DE analysis and also look at counts for certain genes.
+
+```{r setup}
+" If you need to install uncomment below"
+#BiocManager::install('DESeq2')
+#BiocManager::install('EnhancedVolcano')
+#install.packages("tidyverse")
+#install.packages("stringr")
+
+library("tidyverse")
+library("DESeq2")
+library("stringr")
+library(EnhancedVolcano)
+
+projectDir <- 'data/'
+
+filename <- paste(projectDir, 'TCGA_kidney_counts_KIRP-PE2-only_13082020.csv', sep='')
+
+# Read in the count matrix
+counts <- read.csv(filename, header = TRUE, sep = ",")
+# We want to rename the rows and make sure they are labeled by the gene_id (note you'll have to select whatever your ID column name is here)
+" Set <gene_id> to be the column with the gene IDs "
+rownames(counts) <- counts$gene_id
+geneNames <- counts$gene_name
+geneIds <- counts$gene_id
+
+# select only the PE2 data
+counts <- dplyr::select(counts,contains("PE2"))
+
+# Here we get the names of the columns, for my stuff I always have all the info in one string as I find it makes it easier
+# this means each of the "groups" are separated by a "_" this may be different for you
+sampleNames <- colnames(counts) # Sample names
+
+# Lets get the names of the different factors
+splitSampleNames <- str_split(sampleNames, '_')
+project <- sapply(splitSampleNames, function(x){x[2]})
+sampleType <- sapply(splitSampleNames, function(x){x[3]})
+gender <- sapply(splitSampleNames, function(x){x[4]})
+race <- sapply(splitSampleNames, function(x){x[5]})
+tumourStage <- sapply(splitSampleNames, function(x){x[6]})
+
+# For DEseq2 we need to turn this into a dataframe 
+sampleDF = data.frame(project = project, sampleType = sampleType, 
+                      gender = gender, race = race, tumourStage = tumourStage)
+
+# Make sure we don't include the ID in our columns
+countMatrix <- as.matrix(counts)
+
+# We now set the row names to be the gene IDs
+rownames(countMatrix) <- geneNames
+
+# Remove Nans
+countMatrix[is.nan(countMatrix)] <- 0
+```
+
+
+## Starting the DEseq2 Analysis
+Now we can start to run the DEseq2 analysis or the EdgeR, both use the data in the above format.
+
+First we want to set the design for the experiment, from the above webpage: 
+
+>If the research aim is to determine for which genes the effect of treatment is different across groups, then interaction terms can be included and tested using a design such as ~ group + treatment + group:treatment.
+
+For us since we're looking at TCGA maybe we want to look at our treatment as sampleTypes e.g. "Tumour" vs "PrimaryTissueNormal" and our groups as gender e.g: "female", "male".  
+
+```{r}
+# Create a DEseq2 dataset from the counts using our count matrix note we need to set our colum data as factors
+ddsMat <- DESeqDataSetFromMatrix(countData = countMatrix,
+                                 colData = sampleDF,
+                                 design = ~ sampleType)
+
+```
+
+
+### Prefiltering data
+
+This step is one of the most important - here we decide how many of the rows to keep. Since I know the TCGA data has many samples, 
+I am going to be more strict and only keep genes that have > 5 counts in at least 10 samples. Something less stringent may be to just remove rows that have no counts.
+
+Note the more samples that are kept, the more statistical tests you need to perform, thus they will need to pass a higher FDR. It may be important here to filter many of the not so good genes if you wish to pick up on smaller changes such as transcription factors, or more variable genes such as cell cycle genes.
+
+
+```{r}
+"
+Here is the example of something you might do if you have only very few samples:
+
+keep <- rowSums(counts(dds)) > 1
+dds <- dds[keep,]
+"
+
+# Filter out genes with very few counts - here since our normal group have 10 samples we're being pretty conservative with 8
+numSamplesMeetingCriteria <- 8
+numCountsInGene <- 2
+keep <- rowSums(counts(ddsMat) >= numCountsInGene) >= numSamplesMeetingCriteria
+dds <- ddsMat[keep,]
+
+# Let's print the number of rows
+nrow(dds)
+```
+
+### Normalising data for exploration
+
+While we don't need to normalise the data for performing differential expression, it is good to normalise it for visualisation, e.g. when we do a PCA. This is because PCA aims to maximise the captured variance which without normalisation will capture the genes with the highest counts. The tutorial recommends either *Variance stabilising transformation* (VST) (for medium to large datasets e.g. n > 30) or *rlog* (small datasets). These are preferred over just taking the *log transform* as in the log transform small count variances are over exemplified. I will just use VST since I have large datasets.
+
+```{r}
+# blind = FALSE means that the transform is not "unsupervised" it is made aware of the design we set earlier in the dds
+vsd <- vst(dds, blind = TRUE)
+
+```
+
+
+### Visualising of the data
+
+We'll perform two visualisations:
+
+    1) clustermap of the distance between samples
+    2) PCA of the samples
+
+For both of these we'll use the normalised data (by VST).
+
+#### Clustermap
+```{r}
+library("pheatmap")
+library("RColorBrewer")
+
+# We calculate the euclidean distances between the samples. Note we need to transpose the matrix (t(assay(vsd))
+sampleDists <- dist(t(assay(vsd)))
+
+sampleDistMatrix <- as.matrix( sampleDists )
+# Create some row names
+rownames(sampleDistMatrix) <- paste( vsd$sampleType, sep = " - " )
+# Set the column names to be empty since these are just the same as the row names
+colnames(sampleDistMatrix) <- NULL
+colors <- colorRampPalette( rev(brewer.pal(9, "Blues")) )(255)
+anno <- as.data.frame(colData(vsd)[, c("sampleType")])
+
+pheatmap(sampleDistMatrix,
+         clustering_distance_rows = sampleDists,
+         clustering_distance_cols = sampleDists,
+         title="Distances between samples",
+         col = colors)
+```
+#### PCA
+```{r}
+
+pcaData <- plotPCA(vsd, intgroup = c( "sampleType"), returnData = TRUE)
+percentVar <- round(100 * attr(pcaData, "percentVar"))
+ggplot(pcaData, aes(x = PC1, y = PC2, color = sampleType, shape = gender)) +
+  geom_point(size =3) +
+  xlab(paste0("PC1: ", percentVar[1], "% variance")) +
+  ylab(paste0("PC2: ", percentVar[2], "% variance")) +
+  coord_fixed() +
+  ggtitle("PCA with VST data")
+
+```
+
+
+
+### Running DE analysis
+
+Now we'll actually run the DEseq analysis using what we designed before.
+
+#### Results columns explained
+
+> baseMean: average of the normalized count values, divided by the size factors, taken over all samples in the DESeqDataSet
+> log2FoldChange: effect size estimate e.g. how much a gene's expression has changed as a result of the treatment (or in our case tumour)
+> lfcSE: uncertainty (standard error estimate) for the log2FoldChange
+> pvalue: the likelihood that the effect observed occured by chance (e.g. by experimetal variability etc)
+
+
+Note:
+  1) alpha = p-value i.e. significance        --> usually 0.05 (will have high FDR)
+  2) padj = FDR adjusted p values (by BH)     --> usually 0.05 or 0.1
+  3) lfcThreshold = log fold change threshold --> usually 1.0
+  
+  
+```{r}
+
+# Run DEseq2
+dds <- DESeq(dds)
+
+# Build results table
+res <- results(dds)
+
+# Sumarise the results
+summary(res)
+
+# Lastly, we may want to see the results of the high logfoldchange e.g. > 1 with a padj value < 0.05
+table(res$padj < 0.05)
+```
+
+### Having a look at the distribution of specific genes
+
+```{r}
+library(ggplot2)
+# Basic violin plot we need to normalise the data before doing this (we'll use edge R) Could alternativly just take log2 + 1
+
+## Normalise just using log2 counts
+
+log2Counts <- log2(countMatrix + 1)
+
+" Get the genes of interest "
+geneOfInterest <- c('PFKFB1' ,'HIRA')
+geneRow <- log2Counts[rownames(log2Counts) %in% geneOfInterest, ]
+colnames(geneRow) <- sampleType
+geneRow <- t(geneRow)
+geneRow <- cbind(sampleType, data.frame(geneRow, row.names=NULL))
+
+# Plot the normal and then the tumour for both rows
+# We have 39 tumour and 9 normal (note there may be duplicates for some patients)
+p <- ggplot(geneRow, aes(x=sampleType, y=HIRA, fill=sampleType)) + 
+  geom_violin()
+p <- p + geom_dotplot(binaxis='y', stackdir='center', dotsize=) + ggtitle("Log2 + 1 counts HIRA")
+ggsave(
+  "Log2CountsHIRA.png",
+  plot = last_plot())
+# Plot the normal and then the tumour for both rows
+# We have 39 tumour and 9 normal (note there may be duplicates for some patients)
+p <- ggplot(geneRow, aes(x=sampleType, y=PFKFB1, fill=sampleType)) + 
+  geom_violin()
+p <- p + geom_dotplot(binaxis='y', stackdir='center', dotsize=) + ggtitle("Log 2 + 1 counts PFKFB1")
+ggsave(
+  "Log2CountsPFKFB1.png",
+  plot = last_plot())
+```
+### Or just look at the raw data
+
+```{r}
+
+" Get the genes of interest "
+geneOfInterest <- c('PFKFB1' ,'HIRA')
+geneRow <- countMatrix[rownames(countMatrix) %in% geneOfInterest, ]
+colnames(geneRow) <- sampleType
+geneRow <- t(geneRow)
+geneRow <- cbind(sampleType, data.frame(geneRow, row.names=NULL))
+
+# Plot the normal and then the tumour for both rows
+# We have 39 tumour and 9 normal (note there may be duplicates for some patients)
+p <- ggplot(geneRow, aes(x=sampleType, y=HIRA, fill=sampleType)) + 
+  geom_violin()
+p <- p + geom_dotplot(binaxis='y', stackdir='center', dotsize=) + ggtitle("Raw counts HIRA")
+p
+ggsave(
+  "RawCountsHIRA.png",
+  plot = last_plot())
+# Plot the normal and then the tumour for both rows
+# We have 39 tumour and 9 normal (note there may be duplicates for some patients)
+p <- ggplot(geneRow, aes(x=sampleType, y=PFKFB1, fill=sampleType)) + 
+  geom_violin()
+p <- p + geom_dotplot(binaxis='y', stackdir='center', dotsize=) + ggtitle("Raw counts PFKFB1")
+p
+ggsave(
+  "RawCountsPFKFB1.png",
+  plot = last_plot())
+```
+### Saving the data
+
+We just want to save the data to a CSV and use the gene names as well as the ensembl IDS
+```{r}
+# Add gene names
+res$symbol <- rownames(dds)
+resOrdered <- res[order(res$padj),]
+outputFilename <- paste(projectDir, 'DEseq2_NormalVsTumour_KIRP-PE2.csv', sep='')
+write.csv(resOrdered, file = outputFilename)
+```
+
+
+```{r}
+# Let's make a volcano plot
+EnhancedVolcano(res,
+  lab = res$symbol,
+  x = 'log2FoldChange',
+  y = 'padj',
+  title = 'TCGA PE2 KIRP dataset',
+  xlim = c(-5, 8),
+  ylim = c(0, 15))
+```
+
+```{r}
+
+# Top genes as per variance
+topVarGenes <- head(order(rowVars(assay(vsd)), decreasing = TRUE), 20)
+
+mat  <- assay(vsd)[ topVarGenes, ]
+rownames(mat) <- res$symbol[topVarGenes]
+mat  <- mat - rowMeans(mat)
+anno <- as.data.frame(colData(vsd)[, c("sampleType","gender", "tumourStage")])
+pheatmap(mat, annotation_col = anno, show_colnames = F, main="Top 20 most variable genes")
+
+```
+
+
+```{r}
+# Top genes as per significance
+topVarGenes <- head(order(res$padj, decreasing = FALSE), 20)
+
+mat  <- assay(vsd)[ topVarGenes, ]
+rownames(mat) <- res$symbol[topVarGenes]
+mat  <- mat - rowMeans(mat)
+anno <- as.data.frame(colData(vsd)[, c("sampleType","gender", "tumourStage")])
+pheatmap(mat, annotation_col = anno, show_colnames = F, main="Top 20 most significant genes")
+
+```
+
+
+```{r}
+# Top genes as per logFC
+# Top genes as per significance
+topVarGenes <- head(order(abs(res$log2FoldChange), decreasing = TRUE), 20)
+mat  <- assay(vsd)[ topVarGenes, ]
+rownames(mat) <- res$symbol[topVarGenes]
+mat  <- mat - rowMeans(mat)
+anno <- as.data.frame(colData(vsd)[, c("sampleType","gender", "tumourStage")])
+pheatmap(mat, annotation_col = anno, show_colnames = F, main="Top 20 largest fold change")
+
+```
+
