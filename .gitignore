@@ -1,0 +1,5 @@
+*.ipynb_checkpoints*
+*.Rproj.user*
+*~$Re*
+*.DS_Store*
+*.Rhistory
