@@ -1,5 +1,5 @@
-KIRP PE.2 analysis for HIRA project
-===================================
+KIRP PE.2 analysis
+==================
 
 
 Summary
@@ -13,13 +13,13 @@ tests between genes of interest for both DNA methylation and RNAseq data.
 Code for the R analysis can be reproduced by following the script in **KIRP_type2.rmd** and **KIRP_type2_FHdeficient.Rmd**.
 These include a DESeq2 analysis and visualisations of the most variable genes.
 
-Raw code can be found at: https://github.com/ArianeMora/KIRP_HIRA
+Raw code can be found at: https://github.com/ArianeMora/KIRP_PE2
 
 
 Data
 ----
 
-The data are as follows and stored on `github LFS <https://github.com/ArianeMora/KIRP_HIRA/tree/main/KIRP_type2/data>`_:
+The data are as follows and stored on `github LFS <https://github.com/ArianeMora/KIRP_PE2/tree/main/KIRP_type2/data>`_:
 
 **DEseq2_NormalVsTumour_KIRP-PE2.csv**
 Output from running the DEseq2 for the KIRP PE2 tumour vs normal. LogFC is positive if it is higher in the normal vs the tumour.
@@ -60,8 +60,8 @@ The column names are of the format:
 Figures
 -------
 
-Generated images can be found in the HTML or in the `img_DNAmethylation <https://github.com/ArianeMora/KIRP_HIRA/tree/main/KIRP_type2/img_DNAMethylation>`_
-or `img_RNA <https://github.com/ArianeMora/KIRP_HIRA/tree/main/KIRP_type2/img_RNA/>`_ folders.
+Generated images can be found in the HTML or in the `img_DNAmethylation <https://github.com/ArianeMora/KIRP_PE2/tree/main/KIRP_type2/img_DNAMethylation>`_
+or `img_RNA <https://github.com/ArianeMora/KIRP_PE2/tree/main/KIRP_type2/img_RNA/>`_ folders.
 
 
 Getting in touch
