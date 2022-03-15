@@ -5,8 +5,8 @@ from datetime import datetime
 sys.path.insert(0, os.path.abspath('../..'))
 __author__ = "Ariane Mora"
 __version__ = "0.0.1"
-__title__ = "HIRA"
-__url__ = "https://github.com/ArianeMora/KIRP_HIRA"
+__title__ = "PE2"
+__url__ = "https://github.com/ArianeMora/KIRP_PE2"
 
 # Configuration file for the Sphinx documentation builder.
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
@@ -83,7 +83,7 @@ html_context = {
         ],
     'display_github': True,
     'github_user': 'arianemora',
-    'github_repo': 'KIRP_HIRA',
+    'github_repo': 'KIRP_PE2',
     'github_version': 'main/docs_src/src/'
      }
 
@@ -92,9 +92,9 @@ html_js_files = [
 ]
 
 html_logo = '_static/logo.png'
-# https://github.com/ArianeMora/KIRP_HIRA
+# https://github.com/ArianeMora/KIRP_PE2
 # Sitemap settings
-html_baseurl = 'https://arianemora.github.io/KIRP_HIRA/'
+html_baseurl = 'https://arianemora.github.io/KIRP_PE2/'
 sitemap_url_scheme = "{link}"
 
 nbsphinx_allow_errors = True
